@@ -73,11 +73,7 @@ public class GLFWTest {
 			throw new RuntimeException("Failed to create the GLFW Window");
 		}
 		
-		glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-			if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
-				glfwSetWindowShouldClose(window, true);
-			}
-		});
+		glfwSetKeyCallback(window, this::glfwKeyCallbackFunc);
 		
 		try (MemoryStack stack = stackPush()) {
 			IntBuffer pWidth = stack.mallocInt(1);
@@ -95,6 +91,12 @@ public class GLFWTest {
 		glfwShowWindow(window);
 		
 		
+	}
+	
+	private void glfwKeyCallbackFunc(long window, int key, int scancode, int action, int mods) {
+		if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
+			glfwSetWindowShouldClose(window, true);
+		}
 	}
 	
 	private void loop() {
